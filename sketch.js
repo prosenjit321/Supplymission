@@ -12,26 +12,25 @@ function preload()
 }
 
 function setup() {
-	createCanvas(800, 700);
+	createCanvas(800, 500);
 	rectMode(CENTER);
 	
 
-	packageSprite=createSprite(width/2, 80, 10,10);
+	packageSprite=createSprite(400, 95, 10,10);
 	packageSprite.addImage(packageIMG)
-	packageSprite.scale=0.2
+	packageSprite.scale=0.1
 
-	helicopterSprite=createSprite(width/2, 200, 10,10);
+	helicopterSprite=createSprite(400, 180, 10,10);
 	helicopterSprite.addImage(helicopterIMG)
 	helicopterSprite.scale=0.6
 
 	groundSprite=createSprite(width/2, height-35, width,10);
 	groundSprite.shapeColor=color(255)
 
-
 	engine = Engine.create();
 	world = engine.world;
 
-	packageBody = Bodies.circle(width/2 , 200 , 5 , {restitution:0.4, isStatic:true});
+	packageBody = Bodies.circle(400 , 200 , 5 , {restitution:0.4, isStatic:true});
 	World.add(world, packageBody);
 	
 
@@ -40,7 +39,7 @@ function setup() {
  	World.add(world, ground);
 
  	boxPosition=width/2-100
- 	boxY=610;
+ 	boxY=400;
 
 
  	boxleftSprite=createSprite(boxPosition, boxY, 20,100);
@@ -61,9 +60,10 @@ function setup() {
  	boxRightBody = Bodies.rectangle(boxPosition+200-20 , boxY, 20,100 , {isStatic:true} );
  	World.add(world, boxRightBody);
 
-
+	
 	Engine.run(engine);
-  
+    
+	
 }
 
 
@@ -74,6 +74,20 @@ function draw() {
   packageSprite.x= packageBody.position.x 
   packageSprite.y= packageBody.position.y 
 
+  if(keyCode === LEFT_ARROW){
+	helicopterSprite.x = helicopterSprite.x-4
+	Matter.Body.translate(packageBody , {x:-4,y:0})
+}
+if(keyCode === RIGHT_ARROW){
+	helicopterSprite.x = helicopterSprite.x+4
+	Matter.Body.translate(packageBody , {x:+4,y:0})
+}
+
+if(keyCode === DOWN_ARROW){
+	packageSprite.y = packageSprite.y+10;
+	Matter.Body.setStatic(packageBody , false)
+
+}
   
   drawSprites();
   
